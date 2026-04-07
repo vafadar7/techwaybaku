@@ -1,0 +1,24 @@
+import { createId } from "../utils";
+import { readFromStorage, writeToStorage } from "./storage";
+import type { Order } from "../../types";
+
+const ORDER_KEY = "twb_orders";
+
+export const orderRepository = {
+  getAll: () => readFromStorage<Order[]>(ORDER_KEY, []),
+  getById: (id: string) => orderRepository.getAll().find((order) => order.id === id),
+  create: (payload: Omit<Order, "id" | "createdAt">) => {
+    const orders = orderRepository.getAll();
+    const order: Order = {
+      ...payload,
+      id: createId("order"),
+      createdAt: new Date().toISOString(),
+    };
+    writeToStorage(ORDER_KEY, [order, ...orders]);
+    return order;
+  },
+  updateStatus: (id: string, status: Order["status"]) => {
+    const next = orderRepository.getAll().map((order) => (order.id === id ? { ...order, status } : order));
+    writeToStorage(ORDER_KEY, next);
+  },
+};

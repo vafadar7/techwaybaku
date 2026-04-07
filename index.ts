@@ -1,0 +1,233 @@
+import { ABOUT_TEXT, ACTIVE_PHONE, ACTIVE_WHATSAPP_DISPLAY, ADDRESS, APPLE_MAPS_URL, GOOGLE_MAPS_URL, STORE_NAME } from "./constants";
+import type { Brand, Category, Product, Promotion, Settings } from "../types";
+
+export const initialCategories: Category[] = [
+  { id: "cat-smartfon", name: "Smartfonlar", slug: "smartfonlar", icon: "Smartphone", order: 1 },
+  { id: "cat-qulaqliq", name: "Qulaqlıq", slug: "qulaqliq", icon: "Headphones", order: 2 },
+  { id: "cat-adapter", name: "Adapter", slug: "adapter", icon: "Plug", order: 3 },
+  { id: "cat-watch", name: "Watch", slug: "watch", icon: "Watch", order: 4 },
+  { id: "cat-notebook", name: "Notebook", slug: "notebook", icon: "Laptop", order: 5 },
+  { id: "cat-playstation", name: "PlayStation", slug: "playstation", icon: "Gamepad2", order: 6 },
+  { id: "cat-kicik", name: "Kiçik məişət", slug: "kicik-meiset", icon: "House", order: 7 },
+];
+
+export const initialBrands: Brand[] = [
+  { id: "brand-apple", name: "Apple", slug: "apple" },
+  { id: "brand-samsung", name: "Samsung", slug: "samsung" },
+  { id: "brand-xiaomi", name: "Xiaomi", slug: "xiaomi" },
+];
+
+const now = new Date().toISOString();
+
+export const initialProducts: Product[] = [
+  {
+    id: "prd-iphone-15",
+    slug: "iphone-15-128gb",
+    title: "Apple iPhone 15 128GB",
+    description: "A16 Bionic prosessoru, güclü kamera və uzunmüddətli batareya ilə gündəlik istifadə üçün ideal smartfon.",
+    price: 1899,
+    oldPrice: 2099,
+    stock: 14,
+    categoryId: "cat-smartfon",
+    brandId: "brand-apple",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80", alt: "iPhone 15" },
+    ],
+    specs: [
+      { key: "Yaddaş", value: "128GB" },
+      { key: "RAM", value: "6GB" },
+      { key: "Rəng", value: "Mavi" },
+    ],
+    storage: "128GB",
+    ram: "6GB",
+    isPopular: true,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-s24",
+    slug: "samsung-galaxy-s24-256gb",
+    title: "Samsung Galaxy S24 256GB",
+    description: "Dynamic AMOLED ekran, yüksək performans və peşəkar foto imkanları təqdim edən premium model.",
+    price: 2099,
+    oldPrice: 2299,
+    stock: 9,
+    categoryId: "cat-smartfon",
+    brandId: "brand-samsung",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80", alt: "Galaxy S24" },
+    ],
+    specs: [
+      { key: "Yaddaş", value: "256GB" },
+      { key: "RAM", value: "8GB" },
+      { key: "Ekran", value: "6.2" },
+    ],
+    storage: "256GB",
+    ram: "8GB",
+    isPopular: true,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-redmi-note",
+    slug: "xiaomi-redmi-note-13-pro",
+    title: "Xiaomi Redmi Note 13 Pro",
+    description: "Yüksək yenilənmə tezlikli ekran, güclü kamera və münasib qiymət ilə populyar seçim.",
+    price: 849,
+    oldPrice: 949,
+    stock: 30,
+    categoryId: "cat-smartfon",
+    brandId: "brand-xiaomi",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80", alt: "Redmi Note" },
+    ],
+    specs: [
+      { key: "Yaddaş", value: "256GB" },
+      { key: "RAM", value: "8GB" },
+      { key: "Kamera", value: "200MP" },
+    ],
+    storage: "256GB",
+    ram: "8GB",
+    isPopular: true,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-airpods",
+    slug: "apple-airpods-pro-2",
+    title: "Apple AirPods Pro 2",
+    description: "Aktiv səs boğma funksiyası və rahat dizaynla keyfiyyətli musiqi və danışıq təcrübəsi.",
+    price: 549,
+    stock: 22,
+    categoryId: "cat-qulaqliq",
+    brandId: "brand-apple",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1606220838315-056192d5e927?auto=format&fit=crop&w=800&q=80", alt: "AirPods Pro" },
+    ],
+    specs: [
+      { key: "Bağlantı", value: "Bluetooth" },
+      { key: "Səs boğma", value: "Var" },
+      { key: "Batareya", value: "6 saat" },
+    ],
+    isPopular: false,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-adapter",
+    slug: "samsung-45w-adapter",
+    title: "Samsung 45W Sürətli Adapter",
+    description: "USB-C dəstəyi ilə cihazlarınızı sürətli və təhlükəsiz şəkildə enerji ilə təmin edir.",
+    price: 89,
+    stock: 40,
+    categoryId: "cat-adapter",
+    brandId: "brand-samsung",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80", alt: "Adapter" },
+    ],
+    specs: [
+      { key: "Güc", value: "45W" },
+      { key: "Port", value: "USB-C" },
+      { key: "Rəng", value: "Qara" },
+    ],
+    isPopular: false,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-watch",
+    slug: "xiaomi-watch-2",
+    title: "Xiaomi Watch 2",
+    description: "İdman və gündəlik sağlamlıq izləməsi üçün yüngül və funksional ağıllı saat.",
+    price: 299,
+    oldPrice: 349,
+    stock: 16,
+    categoryId: "cat-watch",
+    brandId: "brand-xiaomi",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80", alt: "Ağıllı saat" },
+    ],
+    specs: [
+      { key: "Ekran", value: "AMOLED" },
+      { key: "Batareya", value: "7 gün" },
+      { key: "GPS", value: "Var" },
+    ],
+    isPopular: true,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-macbook",
+    slug: "apple-macbook-air-m2",
+    title: "Apple MacBook Air M2 13",
+    description: "Yüngül korpus, güclü M2 çipi və uzunmüddətli batareya ilə premium notebook təcrübəsi.",
+    price: 2899,
+    oldPrice: 3099,
+    stock: 7,
+    categoryId: "cat-notebook",
+    brandId: "brand-apple",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=800&q=80", alt: "Macbook Air" },
+    ],
+    specs: [
+      { key: "Prosessor", value: "Apple M2" },
+      { key: "Yaddaş", value: "256GB SSD" },
+      { key: "RAM", value: "8GB" },
+    ],
+    storage: "256GB",
+    ram: "8GB",
+    isPopular: true,
+    isPublished: true,
+    createdAt: now,
+  },
+  {
+    id: "prd-ps5",
+    slug: "playstation-5-slim",
+    title: "PlayStation 5 Slim",
+    description: "Yeni nəsil oyun performansı, sürətli SSD və immersiv oyun təcrübəsi təqdim edən konsol.",
+    price: 1499,
+    stock: 0,
+    categoryId: "cat-playstation",
+    brandId: "brand-samsung",
+    images: [
+      { id: "1", url: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?auto=format&fit=crop&w=800&q=80", alt: "PlayStation 5" },
+    ],
+    specs: [
+      { key: "Yaddaş", value: "1TB SSD" },
+      { key: "Nəsil", value: "9-cu nəsil" },
+      { key: "Kontroller", value: "DualSense" },
+    ],
+    isPopular: false,
+    isPublished: true,
+    createdAt: now,
+  },
+];
+
+export const initialPromotions: Promotion[] = [
+  {
+    id: "promo-1",
+    title: "Yay kampaniyası başladı",
+    content: "Seçilmiş smartfon və aksesuarlarda məhdud müddət üçün endirimlər aktivdir.",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80",
+    date: now,
+    isPublished: true,
+  },
+  {
+    id: "promo-2",
+    title: "Yeni notebook kolleksiyası",
+    content: "Apple, Samsung və Xiaomi modelləri ilə iş və təhsil üçün yeni seçimlər təqdim olundu.",
+    image: "https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&w=1000&q=80",
+    date: now,
+    isPublished: true,
+  },
+];
+
+export const initialSettings: Settings = {
+  storeName: STORE_NAME,
+  phone: ACTIVE_PHONE,
+  whatsapp: ACTIVE_WHATSAPP_DISPLAY,
+  address: ADDRESS,
+  googleMapsUrl: GOOGLE_MAPS_URL,
+  appleMapsUrl: APPLE_MAPS_URL,
+  aboutText: ABOUT_TEXT,
+};

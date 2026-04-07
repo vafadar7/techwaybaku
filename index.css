@@ -1,0 +1,100 @@
+import { Heart, MessageCircle, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
+import { buildWhatsAppCheckoutUrl, buildWhatsAppMessage } from "../../lib/constants";
+import { brandRepository, categoryRepository } from "../../lib/repositories/productRepository";
+import { formatPrice } from "../../lib/utils";
+import { useCartStore } from "../../store/useCartStore";
+import { useWishlistStore } from "../../store/useWishlistStore";
+import type { Product } from "../../types";
+import { Badge } from "../ui/Badge";
+import { Button } from "../ui/Button";
+import { Card } from "../ui/Card";
+
+interface Props {
+  product: Product;
+}
+
+export function ProductCard({ product }: Props) {
+  const addItem = useCartStore((state) => state.addItem);
+  const toggleFavorite = useWishlistStore((state) => state.toggle);
+  const isFavorite = useWishlistStore((state) => state.isFavorite(product.id));
+
+  const discountPercent =
+    product.oldPrice && product.oldPrice > product.price
+      ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+      : 0;
+
+  const brand = brandRepository.getAll().find((item) => item.id === product.brandId)?.name;
+  const category = categoryRepository.getAll().find((item) => item.id === product.categoryId)?.name;
+  const specs = [product.storage ? `Yaddaş: ${product.storage}` : null, product.ram ? `RAM: ${product.ram}` : null]
+    .filter(Boolean)
+    .slice(0, 2);
+
+  const quickMessage = buildWhatsAppMessage({
+    items: [
+      {
+        productId: product.id,
+        title: product.title,
+        quantity: 1,
+        unitPrice: product.price,
+        oldUnitPrice: product.oldPrice,
+        image: product.images[0]?.url || "",
+      },
+    ],
+    deliveryMethod: "pickup",
+    finalTotal: product.price,
+  });
+
+  return (
+    <Card className="flex h-full flex-col p-3">
+      <div className="relative">
+        <img
+          src={product.images[0]?.url}
+          alt={product.images[0]?.alt || product.title}
+          className="aspect-square w-full rounded-lg object-cover"
+          loading="lazy"
+        />
+        {discountPercent > 0 && <Badge tone="danger" className="absolute left-2 top-2">-{discountPercent}%</Badge>}
+        <button
+          className="absolute right-2 top-2 rounded-full bg-white/90 p-2 text-slate-700 shadow-sm"
+          onClick={() => toggleFavorite(product.id)}
+          aria-label="Favorilərə əlavə et"
+        >
+          <Heart className={`h-4 w-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
+        </button>
+      </div>
+
+      <div className="mt-3 flex flex-1 flex-col">
+        <p className="text-xs text-slate-500">{brand} | {category}</p>
+        <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-slate-900">{product.title}</h3>
+        <p className="mt-2 text-lg font-bold text-red-600">{formatPrice(product.price)}</p>
+        {product.oldPrice && product.oldPrice > product.price && (
+          <p className="text-sm text-slate-400 line-through">{formatPrice(product.oldPrice)}</p>
+        )}
+
+        <div className="mt-2 flex flex-wrap gap-1">
+          {specs.map((spec) => (
+            <Badge key={spec} tone="neutral" className="text-[11px]">{spec}</Badge>
+          ))}
+        </div>
+
+        <div className="mt-3 space-y-2">
+          <Button className="w-full" onClick={() => addItem(product)}>
+            <ShoppingCart className="h-4 w-4" /> Səbətə əlavə et
+          </Button>
+          <a
+            href={buildWhatsAppCheckoutUrl(quickMessage)}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            <MessageCircle className="h-4 w-4" /> WhatsApp ilə sifariş
+          </a>
+          <Link to={`/mehsul/${product.slug}`} className="block text-center text-sm font-medium text-blue-600 hover:underline">
+            Ətraflı bax
+          </Link>
+        </div>
+      </div>
+    </Card>
+  );
+}
